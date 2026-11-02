@@ -1,0 +1,1 @@
+{"collide_after_expand":true,"expansion_policy":"exact_only","fail_on_nonempty_bin":false,"max_edit_distance":1,"max_expansions_per_token":1,"min_confidence":0.85,"nearest_neighbor_metric":"edit_distance","pairwise_enable":false}

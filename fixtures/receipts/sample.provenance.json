@@ -1,0 +1,20 @@
+{
+  "schema_version": "0.3.0",
+  "record_id": "isa-run-sample-phase-0.3",
+  "bytes": {
+    "pre_expansion_ast": "fixtures/ast/sample.pre.json",
+    "post_expansion_ast": "fixtures/ast/sample.post.json",
+    "controls_snapshot": "fixtures/controls/sample.controls.json",
+    "pairwise_scores": "fixtures/pairwise/sample.pairwise.json",
+    "artifact": "fixtures/artifacts/sample.out.txt"
+  },
+  "hashes": {
+    "pre_expansion_ast_hash": "ac17ac3d928cbdcd907890a7e69fa884462dacf6e8d5664c0cb5ff2f9f0c8516",
+    "post_expansion_ast_hash": "69de3fd6144a04a8c061b5afe46db833cb1e8981a8da5457eaac23ad018dce18",
+    "controls_snapshot_hash": "4b0d20a78e95a4d886966362955f7fe6e98ec5a92f4fe2a16d2bffd5957b7079",
+    "pairwise_scores_hash": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "artifact_sha256": "50141142fc4a613be5649b2ea67a8cbdb1e8be1337d3e29da0d453b07509a7b9"
+  },
+  "resolution_bin": [],
+  "notes": "Golden sample for isa-provenance-hash-gate. max_edit_distance default 1 preserved in controls snapshot."
+}

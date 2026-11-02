@@ -1,0 +1,45 @@
+schema_version: "0.3.0"
+status: proposed_design
+layer: LexiconExpand
+position: after_parse_before_target_bind
+emits: OperatorClaims_only
+never_writes_fields: true
+
+controls:
+  expansion_policy: { type: enum, values: [exact_only, allow_near, require_human, bin_and_continue], default: bin_and_continue }
+  max_expansions_per_token: { type: integer, min: 1, max: 8, default: 1 }
+  min_confidence: { type: number, min: 0, max: 1, default: 0.85 }
+  max_edit_distance: { type: integer, min: 0, max: 2, default: 1 }
+  nearest_neighbor_metric: { type: enum, values: [embedding_cosine, edit_distance, lexicon_hop], default: edit_distance }
+  allow_entails: { type: boolean, default: false }
+  allow_co_occurs: { type: boolean, default: false }
+  maps_to_primitive_required: { type: boolean, default: true }
+  on_unknown: { type: enum, values: [bin_and_continue, omit_with_ISA110, hold_for_human], default: bin_and_continue }
+  on_antonym_blocked: { type: enum, values: [bin_and_continue], default: bin_and_continue }
+  multi_match_policy: { type: enum, values: [reject, rank_by_confidence, require_human], default: reject }
+  weight_inheritance: { type: enum, values: [copy_raw, copy_canonical_band, scale_by_confidence], default: copy_raw }
+  collide_after_expand: { type: boolean, default: true }
+  fail_on_nonempty_bin: { type: boolean, default: false }
+
+pairwise:
+  pairwise_enable: { type: boolean, default_when_max_expansions_gt_1: true }
+  pairwise_window: { type: integer, min: 1, max: 5, default: 2 }
+  cross_term_weight: { type: number, min: 0, max: 1, default: 0.35 }
+  mutual_support_bonus: { type: number, min: 0, max: 0.25, default: 0.1 }
+  conflict_penalty: { type: number, min: 0, max: 1, default: 0.5 }
+  min_pairwise_score: { type: number, min: 0, max: 1, default: 0.6 }
+  pair_aggregation: { type: enum, values: [max, mean, softmax], default: max }
+  softmax_temperature: { type: number, min: 0.1, max: 2, default: 1 }
+
+resolution_bin:
+  entries_are_operator_claims: false
+  enter_collision: only_after_human_or_ResolveBin_pass
+  antonym_blocked: always_bins_never_auto_collision
+
+provenance:
+  store:
+    - controls_snapshot (includes max_edit_distance)
+    - pre_expansion_ast_hash
+    - post_expansion_ast_hash
+    - pairwise scores / pairwise_scores_hash
+    - resolution_bin entries and reason codes

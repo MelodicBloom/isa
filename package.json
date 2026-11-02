@@ -1,0 +1,15 @@
+{
+  "name": "@melodicbloom/isa",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "description": "ISA Phase 0.3 — Instruction Semantic Assembly contracts, LexiconExpand, provenance hash gate",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "ci:hash-gate": "node scripts/isa-provenance-hash-gate.mjs",
+    "ci:fixtures": "node scripts/run-fixture-gates.mjs",
+    "ci": "npm run ci:hash-gate && npm run ci:fixtures"
+  }
+}

@@ -1,0 +1,74 @@
+# ISA Phase 0.3 — isa-provenance-hash-gate
+# Canonical job definition. Lives at repository ROOT by contract.
+# GitHub Actions cannot auto-discover root workflows; see
+# .github/workflows/isa-ci.yml (thin pointer) which invokes scripts/.
+#
+# Gate: collect every provenance receipt hash; recompute from bytes;
+# fail closed on missing or mismatched hashes; on failure run
+# socratic-hash-diagnostic → diagnostic.md (seven questions), upload,
+# fail the job.
+
+name: isa-provenance-hash-gate
+schema_version: "0.3.0"
+status: proposed_design_enforceable
+
+collect:
+  required_fields:
+    - pre_expansion_ast_hash
+    - post_expansion_ast_hash
+    - controls_snapshot_hash
+    - pairwise_scores_hash
+    - artifact_sha256
+    - resolution_bin_digest  # required when resolution_bin is non-empty; else null allowed
+  receipt_glob: "fixtures/receipts/**/*.provenance.json"
+  bytes_roots:
+    - fixtures/receipts
+    - fixtures/ast
+    - fixtures/artifacts
+
+fail_closed:
+  missing_required_hash: fail
+  mismatched_recomputed_hash: fail
+  soft_pass: false
+  skip_allowed: false
+
+socratic_hash_diagnostic:
+  on: failure
+  output: diagnostic.md
+  questions:
+    - id: Q1
+      text: What hash was expected?
+    - id: Q2
+      text: What hash was observed (recomputed from bytes)?
+    - id: Q3
+      text: Which pipeline stage last wrote that field (LexiconExpand | pairwise | collide | render | fixture)?
+    - id: Q4
+      text: Which control or pairwise parameter differs between the two control snapshots, if both exist?
+    - id: Q5
+      text: Did only surface wording change while post_expansion_ast_hash stayed equal?
+    - id: Q6
+      text: Was a ResolutionBin entry promoted without rehash?
+    - id: Q7
+      text: What is the smallest next experiment (e.g. exact_only + max_edit_distance 0, or pairwise_enable false)?
+
+controls_snapshot_must_include:
+  - expansion_policy
+  - max_expansions_per_token
+  - min_confidence
+  - max_edit_distance          # integer 0..2, default 1
+  - nearest_neighbor_metric
+  - pairwise_enable
+  - pairwise_window
+  - cross_term_weight
+  - mutual_support_bonus
+  - conflict_penalty
+  - min_pairwise_score
+  - pair_aggregation
+  - fail_on_nonempty_bin      # default false
+  - collide_after_expand
+
+promote_gate:
+  validated_fixture_requires:
+    - isa-provenance-hash-gate green
+    - fixture gates F01–F08
+    - lexicon fixture gates F09–F14

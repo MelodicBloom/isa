@@ -1,0 +1,12 @@
+{
+  "ops": [
+    {
+      "id": "INCANDESCENCE",
+      "raw_weight": 0.84,
+      "claim_kind": "expanded"
+    }
+  ],
+  "surface": [
+    "glow"
+  ]
+}
