@@ -10,7 +10,7 @@ controls:
   max_expansions_per_token: { type: integer, min: 1, max: 8, default: 1 }
   min_confidence: { type: number, min: 0, max: 1, default: 0.85 }
   max_edit_distance: { type: integer, min: 0, max: 2, default: 1 }
-  nearest_neighbor_metric: { type: enum, values: [embedding_cosine, edit_distance, lexicon_hop], default: edit_distance }
+  nearest_neighbor_metric: { type: enum, values: [embedding_cosine, edit_distance, lexicon_hop], default: lexicon_hop }
   allow_entails: { type: boolean, default: false }
   allow_co_occurs: { type: boolean, default: false }
   maps_to_primitive_required: { type: boolean, default: true }

@@ -2,11 +2,12 @@
 
 ## CI layout
 
-- **Canonical gate file (repository root):** [`isa-provenance-hash-gate.yml`](./isa-provenance-hash-gate.yml)
+- **Workflow (GitHub Actions, auto-run):** [`.github/workflows/isa-provenance-hash-gate.yml`](./.github/workflows/isa-provenance-hash-gate.yml)
 - **Executable:** [`scripts/isa-provenance-hash-gate.mjs`](./scripts/isa-provenance-hash-gate.mjs)
-- **Thin Actions pointer:** [`.github/workflows/isa-ci.yml`](./.github/workflows/isa-ci.yml)
+- **Fixture gates:** [`scripts/run-fixture-gates.mjs`](./scripts/run-fixture-gates.mjs)
+- **Full contract:** [`docs/PHASE-0.3-ISA-CONTRACT.md`](./docs/PHASE-0.3-ISA-CONTRACT.md)
 
-GitHub Actions only auto-runs workflows under `.github/workflows/`. The root YAML is the Phase 0.3 source of truth; the thin pointer checks out the repo, runs Node 22, invokes the root-adjacent script, uploads `diagnostic.md` on failure, then runs fixture gate declarations.
+The workflow checks out the repo, runs Node 22, recomputes provenance hashes from bytes (fail closed), uploads `diagnostic.md` on failure, then runs fixture gates F01–F14 (lexicon F09–F14) as a separate job.
 
 ## Fail closed
 

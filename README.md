@@ -11,6 +11,6 @@ npm run ci:hash-gate   # fail closed on missing/mismatched hashes
 npm run ci:fixtures    # declare F01–F14 (runtime TBD)
 ```
 
-Canonical gate contract: [`isa-provenance-hash-gate.yml`](./isa-provenance-hash-gate.yml) at **repository root**.
+CI workflow: [`.github/workflows/isa-provenance-hash-gate.yml`](./.github/workflows/isa-provenance-hash-gate.yml). Full design contract: [`docs/PHASE-0.3-ISA-CONTRACT.md`](./docs/PHASE-0.3-ISA-CONTRACT.md).
 
 See [`CONTRACT.md`](./CONTRACT.md).
